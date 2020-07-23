@@ -65,5 +65,4 @@ tidy_dataset <- function(dataset_meta, dataset_contents) {
            same_infant_calc = paste(study_ID,same_infant)) %>%
     add_rownames("unique_row") %>%
     ungroup()
-
 }
