@@ -9,7 +9,6 @@
 #'   ml_data <- metalabr::get_metalab_data(ml_dataset_info)
 #' }
 #' 
-
 get_metalab_data <- function(dataset_info) {
   dataset_info %>%
     purrr::pmap_dfr(function(...) {
@@ -42,6 +41,7 @@ load_and_validate_dataset <- function(dataset_info) {
     filter(!is.na(d_calc))
 }
 
+#' @export
 add_metalab_summary_info <- function(metalab_dataset_info, metalab_data) {
   studies <- metalab_data %>%
     group_by(dataset) %>%
