@@ -1,16 +1,19 @@
-Package: metalab
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: metalabr
+Title: R package for accessing MetaLab data
+Version: 0.0.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Erik",
+           family = "Iverson",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "erik@sigmafield.org")
+Description: This package provides functions for reading, validating, and processing data for MetaLab. 
+License: use_mit_license()
 Encoding: UTF-8
 LazyData: true
+Imports:
+    assertthat,
+    dplyr,
+    magrittr,
+    purrr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0

@@ -1,9 +1,9 @@
-tidy_dataset <- function(dataset_meta, dataset_contents) {
+tidy_dataset <- function(dataset_meta, dataset_contents, field_info) {
 
   # Coerce each field's values to the field's type, discard any columns not in
   # field spec, add NA columns for missing (optional) fields
   dataset_data <- data_frame(row = 1:nrow(dataset_contents))
-  for (field in fields) {
+  for (field in field_info) {
     if (field$field %in% names(dataset_contents)) {
       if (field$type == "string") {
         field_fun <- as.character
@@ -39,7 +39,7 @@ tidy_dataset <- function(dataset_meta, dataset_contents) {
            short_name = dataset_meta[["short_name"]],
            domain = dataset_meta[["domain"]]) %>%
     split(.$row) %>%
-    map_df(~bind_cols(
+    purrr::map_df(~bind_cols(
       .x, compute_es(
         .x$participant_design, .x$x_1, .x$x_2, .x$x_dif, .x$SD_1, .x$SD_2,
         .x$SD_dif, .x$n_1, .x$n_2, .x$t, .x$F, .x$d, .x$d_var, .x$corr,
@@ -49,9 +49,9 @@ tidy_dataset <- function(dataset_meta, dataset_contents) {
     select(-row)
 
   # Add any other derived values
-  method_options <- keep(fields, ~.x$field == "method")[[1]]$options
-  method_names <- unlist(map(method_options, ~.x[[names(.x)]]$fullname))
-  names(method_names) <- unlist(map(method_options, names))
+  method_options <- purrr::keep(field_info, ~.x$field == "method")[[1]]$options
+  method_names <- unlist(purrr::map(method_options, ~.x[[names(.x)]]$fullname))
+  names(method_names) <- unlist(purrr::map(method_options, names))
 
   dataset_data_calc %>%
     # mutate(dataset = dataset_meta[["name"]],

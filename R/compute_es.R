@@ -4,8 +4,7 @@ compute_es <- function(participant_design, x_1 = NA, x_2 = NA, x_dif = NA,
                        corr_imputed = NA, r = NA, r_var = NA, study_ID = NA, expt_num = NA,
                        special_cases_measures = NA, contrast_sampa = NA, short_name = NA) {
 
-
-  assert_that(participant_design %in% c("between", "within_two", "within_one"))
+  assertthat::assert_that(participant_design %in% c("between", "within_two", "within_one"))
 
   #we introduce variables calles d_calc and d_var_calc to distiguish them from the fields d and d_var, which are fields where effect sizes were already available from the source of the data
   d_calc <- NA
