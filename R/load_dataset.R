@@ -35,8 +35,17 @@ load_and_validate_dataset <- function(dataset_info) {
   avg_month <- 365.2425 / 12.0
   ## NB: do we need all_mod here? what is the d_calc filter?
   tidy_dataset(dataset_info, dataset_contents, field_info) %>%
-    mutate(mean_age_months = mean_age / avg_month) %>%
-    filter(!is.na(d_calc))
+    mutate(all_mod = "",
+           mean_age_months = mean_age / avg_month) %>%
+    filter(!is.na(d_calc)) %>%
+    mutate(
+      year = ifelse(
+        test = grepl("submitted", study_ID),
+        yes = Inf,
+        no = stringr::str_extract(study_ID, "([:digit:]{4})")),
+      study_ID = as.character(study_ID),
+      same_infant = as.character(same_infant),
+      expt_condition = as.character(expt_condition))
 }
 
 #' @export
