@@ -3,6 +3,8 @@
 export(add_metalab_summary_info)
 export(get_metalab_data)
 export(get_metalab_dataset_info)
+export(get_metalab_derived_field_info)
 export(get_metalab_domain_info)
+export(get_metalab_field_info)
 export(get_metalab_report_info)
 importFrom(magrittr,"%>%")

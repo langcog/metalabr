@@ -12,10 +12,12 @@ get_metalab_report_info <- function(report_file = paste0(ml_metadata_url, "repor
   yaml::yaml.load_file(report_file)
 }
 
+#' @export
 get_metalab_field_info <- function(field_file = paste0(ml_metadata_url, "spec.yaml")) {
   yaml::yaml.load_file(field_file)
 }
 
+#' @export
 get_metalab_derived_field_info <- function(derived_field_file =
                                              paste0(ml_metadata_url, "spec_derived.yaml")) {
   yaml::yaml.load_file(derived_field_file) %>%
