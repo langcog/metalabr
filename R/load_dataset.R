@@ -9,7 +9,19 @@
 #'   ml_data <- metalabr::get_metalab_data(ml_dataset_info)
 #' }
 #' 
-get_metalab_data <- function(dataset_info) {
+get_metalab_data <- function(dataset_info, short_names, domains) {
+  if (!missing(short_names) && !missing(domains)) {
+    stop("Only provide one of short_names or domains")
+  }
+
+  if (!missing(short_names)) {
+    dataset_info <- dataset_info %>% filter(short_name %in% short_names)
+  }
+
+  if (!missing(domains)) {
+    dataset_info <- dataset_info %>% filter(domain %in% domains)
+  }
+  
   dataset_info %>%
     purrr::pmap_dfr(function(...) {
         load_and_validate_dataset(list(...))
@@ -25,8 +37,9 @@ load_and_validate_dataset <- function(dataset_info) {
     return()
   }
 
-  is_valid_dataset <-
-    validate_dataset(dataset_info, dataset_contents, field_info)
+  is_valid_dataset <- is_valid_dataset(dataset_info,
+                                       dataset_contents,
+                                       field_info)
 
   if (!is_valid_dataset) {
     return()
