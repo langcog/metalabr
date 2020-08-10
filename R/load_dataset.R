@@ -25,8 +25,9 @@ load_and_validate_dataset <- function(dataset_info) {
     return()
   }
 
-  is_valid_dataset <-
-    validate_dataset(dataset_info, dataset_contents, field_info)
+  is_valid_dataset <- is_valid_dataset(dataset_info,
+                                       dataset_contents,
+                                       field_info)
 
   if (!is_valid_dataset) {
     return()
