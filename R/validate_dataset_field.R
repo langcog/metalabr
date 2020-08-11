@@ -46,19 +46,15 @@ is_valid_numeric_field <- function(dataset_name, dataset_contents, field) {
 
 is_valid_r_corr <- function(dataset_name, dataset_contents, field){
   field_contents <- dataset_contents[[field$field]]
-  cat(sprintf("this is field contents '%s'", field_contents))
-    # if (!(all( (-1) <field_contents <1)){
-    if (all(is.na(field_contents)) || (any(field_contents > (1)))){
+  if ((any(field_contents > 1, na.rm = TRUE)) || any(field_contents < -1, na.rm = TRUE)){
       cat(sprintf("Dataset '%s' has '%s' out of range [-1,1]",
                   dataset_name, field$field))
       return(FALSE)
-    }
-      # || (any(field_contents > 1))
-      
-    else{
+    } else {
       return(TRUE)
     }
 }
+
 
 validate_dataset_field <- function(dataset_name, dataset_contents, field) {
   if (field$required) {
