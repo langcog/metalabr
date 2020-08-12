@@ -47,8 +47,9 @@ is_valid_numeric_field <- function(dataset_name, dataset_contents, field) {
 is_valid_r_corr <- function(dataset_name, dataset_contents, field){
   field_contents <- dataset_contents[[field$field]]
   if ((any(field_contents > 1, na.rm = TRUE)) || any(field_contents < -1, na.rm = TRUE)){
-      cat(sprintf("Dataset '%s' has '%s' out of range [-1,1]",
-                  dataset_name, field$field))
+      rows <- which(((field_contents > 1 | field_contents < -1))) + 1
+      cat(sprintf("Dataset '%s' has '%s' out of range [-1,1] on row %s \n",
+                  dataset_name, field$field, rows))
       return(FALSE)
     } else {
       return(TRUE)
