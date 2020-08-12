@@ -44,20 +44,37 @@ is_valid_numeric_field <- function(dataset_name, dataset_contents, field) {
   }
 }
 
+is_valid_r_corr <- function(dataset_name, dataset_contents, field){
+  field_contents <- dataset_contents[[field$field]]
+  if ((any(field_contents > 1, na.rm = TRUE)) || any(field_contents < -1, na.rm = TRUE)){
+      cat(sprintf("Dataset '%s' has '%s' out of range [-1,1]",
+                  dataset_name, field$field))
+      return(FALSE)
+    } else {
+      return(TRUE)
+    }
+}
+
+
 validate_dataset_field <- function(dataset_name, dataset_contents, field) {
   if (field$required) {
     if (!is_valid_required_field(dataset_name, dataset_contents, field)) {
       return(FALSE)
     }
-
     if (field$type == "options") {
       if (!is_valid_options_field(dataset_name, dataset_contents, field)) {
         return(FALSE)
       }
-    }else if (field$type == "numeric") {
+    } else if (field$type == "numeric") {
       if (!is_valid_numeric_field(dataset_name, dataset_contents, field)) {
         return(FALSE)
       }
+      if (field$field == "r" || field$field == "corr"){
+        if(!is_valid_r_corr(dataset_name, dataset_contents, field)){
+          return(FALSE)
+        }
+      }
+  
     }
   }
   return(TRUE)
