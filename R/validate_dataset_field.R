@@ -56,7 +56,7 @@ is_valid_r_corr <- function(dataset_name, dataset_contents, field){
     }
 }
 
-
+#' @export
 validate_dataset_field <- function(dataset_name, dataset_contents, field) {
   if (field$required) {
     if (!is_valid_required_field(dataset_name, dataset_contents, field)) {
