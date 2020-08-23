@@ -4,7 +4,7 @@
 \alias{get_metalab_data}
 \title{Get raw data used by Metalab}
 \usage{
-get_metalab_data(dataset_info)
+get_metalab_data(dataset_info, short_names, domains)
 }
 \arguments{
 \item{dataset_info}{A data.frame of datasets created with get_metalab_dataset_info()}
