@@ -56,7 +56,6 @@ is_valid_r_corr <- function(dataset_name, dataset_contents, field){
     }
 }
 
-<<<<<<< HEAD
 is_valid_length <- function(dataset_name, dataset_contents, field, length_limit){
   field_contents <- dataset_contents[[field$field]]
   if ((any(nchar(field_contents) > length_limit))){
@@ -68,9 +67,6 @@ is_valid_length <- function(dataset_name, dataset_contents, field, length_limit)
   }
 }
 
-=======
-#' @export
->>>>>>> e434707403f90291d9515cf7cb281c7d9cfa55d8
 validate_dataset_field <- function(dataset_name, dataset_contents, field) {
   if (field$required) {
     if (!is_valid_required_field(dataset_name, dataset_contents, field)) {
