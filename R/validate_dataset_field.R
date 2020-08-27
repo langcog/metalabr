@@ -56,12 +56,28 @@ is_valid_r_corr <- function(dataset_name, dataset_contents, field){
     }
 }
 
-#' @export
+is_valid_length <- function(dataset_name, dataset_contents, field, length_limit){
+  field_contents <- dataset_contents[[field$field]]
+  if ((any(nchar(field_contents) > length_limit))){
+    cat(sprintf("Dataset %s has length greater than limit (%s characters) in '%s' \n",
+                  dataset_name, length_limit, field$field))
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+}
+
 validate_dataset_field <- function(dataset_name, dataset_contents, field) {
   if (field$required) {
     if (!is_valid_required_field(dataset_name, dataset_contents, field)) {
       return(FALSE)
     }
+    
+    if (field$field == "short_cite"){
+        if(!is_valid_length(dataset_name, dataset_contents, field, 35)){
+          return(FALSE)
+        }
+      }
     if (field$type == "options") {
       if (!is_valid_options_field(dataset_name, dataset_contents, field)) {
         return(FALSE)
@@ -75,7 +91,7 @@ validate_dataset_field <- function(dataset_name, dataset_contents, field) {
           return(FALSE)
         }
       }
-  
+      
     }
   }
   return(TRUE)
