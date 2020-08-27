@@ -21,16 +21,31 @@ get_metalab_data <- function(dataset_info, short_names, domains) {
   if (!missing(domains)) {
     dataset_info <- dataset_info %>% filter(domain %in% domains)
   }
+
+  dataset_versions <- get_google_sheet_named_versions(dataset_info$key)
   
   dataset_info %>%
     purrr::pmap_dfr(function(...) {
-        load_and_validate_dataset(list(...))
-    }) 
+        load_and_validate_dataset(list(...), dataset_versions)
+    })
 }
 
-load_and_validate_dataset <- function(dataset_info) {
+load_and_validate_dataset <- function(dataset_info, dataset_versions) {
   cat("Getting raw MetaLab data from Google Sheets for dataset:", dataset_info$name, "\n")
-  dataset_contents <- fetch_dataset(dataset_info$key)
+  dataset_revision <- NULL
+
+  ## get specific revision if a named version is specified, the named
+  ## we have the version information available, and the named version exists
+  ## in the version dataset
+  if (!is.null(dataset_info$version) &&
+        (dataset_info$key %in% names(dataset_versions)) &&
+        dataset_info$version %in% dataset_versions[[dataset_info$key]]$name) {
+    
+    dataset_revision <- dataset_versions[[dataset_info$key]] %>%
+      filter(name == dataset_info$version) %>% .$end
+  }
+  
+  dataset_contents <- fetch_dataset(dataset_info$key, dataset_revision)
   field_info <- get_metalab_field_info()
 
   if (is.null(dataset_contents)) {

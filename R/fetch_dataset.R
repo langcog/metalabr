@@ -1,9 +1,11 @@
-fetch_dataset <- function(key, revision = NA) {
-  if (is.na(revision)) {
+fetch_dataset <- function(key, revision = NULL) {
+  if (is.null(revision)) {
+    message("Note: No version name for Google Sheet specified, reading current Sheet")
     dataset_url <- sprintf(
       "https://docs.google.com/spreadsheets/d/%s/export?id=%s&format=csv",
       key, key)
   } else {
+    message(sprintf("Note: reading revision %s", revision))
     dataset_url <- sprintf(
       "https://docs.google.com/spreadsheets/d/%s/export?id=%s&format=csv&revision=%s",
       key, key, revision)
