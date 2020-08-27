@@ -1,7 +1,13 @@
-fetch_dataset <- function(key) {
-  dataset_url <- sprintf(
-    "https://docs.google.com/spreadsheets/d/%s/export?id=%s&format=csv",
-    key, key)
+fetch_dataset <- function(key, revision = NA) {
+  if (is.na(revision)) {
+    dataset_url <- sprintf(
+      "https://docs.google.com/spreadsheets/d/%s/export?id=%s&format=csv",
+      key, key)
+  } else {
+    dataset_url <- sprintf(
+      "https://docs.google.com/spreadsheets/d/%s/export?id=%s&format=csv&revision=%s",
+      key, key, revision)
+  }
   
   tryCatch({
     suppressMessages({
@@ -11,6 +17,7 @@ fetch_dataset <- function(key) {
     })
   },
   error = function(e) {
-    cat(sprintf("Can't load dataset with key '%s'. Exception: %s.\n", key, e))
+    cat(sprintf("Can't load dataset with key '%s' and revision '%s'. Exception: %s.\n",
+                key, revision, e))
   })
 }
