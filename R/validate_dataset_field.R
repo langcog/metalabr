@@ -74,7 +74,7 @@ validate_dataset_field <- function(dataset_name, dataset_contents, field) {
     }
     
     if (field$field == "short_cite"){
-        if(!is_valid_length(dataset_name, dataset_contents, field, 35)){
+        if(!is_valid_length(dataset_name, dataset_contents, field, 60)){
           return(FALSE)
         }
       }
