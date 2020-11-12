@@ -9,7 +9,11 @@
 #'   ml_data <- metalabr::get_metalab_data(ml_dataset_info)
 #' }
 #' 
-get_metalab_data <- function(dataset_info, short_names, domains) {
+get_metalab_data <- function(dataset_info, short_names, domains, field_info) {
+  if (missing(field_info)) {
+    field_info <- get_metalab_field_info()
+  }
+  
   if (!missing(short_names) && !missing(domains)) {
     stop("Only provide one of short_names or domains")
   }
@@ -24,14 +28,13 @@ get_metalab_data <- function(dataset_info, short_names, domains) {
   
   dataset_info %>%
     purrr::pmap_dfr(function(...) {
-        load_and_validate_dataset(list(...))
+        load_and_validate_dataset(list(...), field_info)
     }) 
 }
 
-load_and_validate_dataset <- function(dataset_info) {
+load_and_validate_dataset <- function(dataset_info, field_info) {
   cat("Getting raw MetaLab data from Google Sheets for dataset:", dataset_info$name, "\n")
   dataset_contents <- fetch_dataset(dataset_info$key)
-  field_info <- get_metalab_field_info()
 
   if (is.null(dataset_contents)) {
     return()

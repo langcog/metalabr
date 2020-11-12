@@ -1,6 +1,6 @@
 #' @importFrom magrittr "%>%"
 
-ml_metadata_url <- "https://raw.githubusercontent.com/langcog/metalab2/master/metadata/"
+ml_metadata_url <- "https://raw.githubusercontent.com/langcog/metalab/main/metadata/"
 
 #' @export
 get_metalab_domain_info <- function(domain_file = paste0(ml_metadata_url, "domains.yaml")) {
