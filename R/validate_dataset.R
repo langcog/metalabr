@@ -1,6 +1,5 @@
 #' @export
 validate_dataset <- function(dataset_meta, dataset_contents, field_info) {
-  str(dataset_contents)
   purrr::map(field_info, function(field) {
     validate_dataset_field(dataset_meta$name, dataset_contents, field)
   })
