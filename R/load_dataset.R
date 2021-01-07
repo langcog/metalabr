@@ -65,6 +65,9 @@ load_and_validate_dataset <- function(dataset_info, field_info) {
 }
 
 #' @export
+#' @param metalab_dataset_info, metalab_data
+#' @return 
+#' 
 add_metalab_summary_info <- function(metalab_dataset_info, metalab_data) {
   studies <- metalab_data %>%
     group_by(dataset) %>%
@@ -83,3 +86,4 @@ add_metalab_summary_info <- function(metalab_dataset_info, metalab_data) {
     left_join(subjects, by = "dataset") %>%
     rename(name = dataset)
 }
+
