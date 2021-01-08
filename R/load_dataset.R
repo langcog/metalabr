@@ -32,6 +32,14 @@ get_metalab_data <- function(dataset_info, short_names, domains, field_info) {
     }) 
 }
 
+
+#' Load and validate dataset used by Metalab
+#'
+#' @param dataset_info A data.frame of datasets created with get_metalab_dataset_info()
+#' @export
+#' @return Boolean whether dataset is valid
+#' 
+#' 
 load_and_validate_dataset <- function(dataset_info, field_info) {
   cat("Getting raw MetaLab data from Google Sheets for dataset:", dataset_info$name, "\n")
   dataset_contents <- fetch_dataset(dataset_info$key)
@@ -64,9 +72,12 @@ load_and_validate_dataset <- function(dataset_info, field_info) {
       expt_condition = as.character(expt_condition))
 }
 
+#' Add metalab summary info used by Metalab
+#'
+#' @param metalab_dataset_info , metalab_data
 #' @export
-#' @param metalab_dataset_info, metalab_data
-#' @return 
+#' @return Null
+#' 
 #' 
 add_metalab_summary_info <- function(metalab_dataset_info, metalab_data) {
   studies <- metalab_data %>%
