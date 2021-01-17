@@ -21,8 +21,8 @@ get_metalab_field_info <- function(field_file = paste0(ml_metadata_url, "spec.ya
 get_metalab_derived_field_info <- function(derived_field_file =
                                              paste0(ml_metadata_url, "spec_derived.yaml")) {
   yaml::yaml.load_file(derived_field_file) %>%
-    transpose() %>%
-    simplify_all() %>%
+    purrr::transpose() %>%
+    purrr::simplify_all() %>%
     dplyr::as_data_frame()
 }
 
@@ -47,5 +47,5 @@ get_metalab_dataset_info <- function(dataset_file = paste0(ml_metadata_url, "dat
     x
   })
 
-  bind_rows(datasets)
+  dplyr::bind_rows(datasets)
 }
