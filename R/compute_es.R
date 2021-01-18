@@ -6,13 +6,18 @@ compute_es <- function(participant_design, x_1 = NA, x_2 = NA, x_dif = NA,
 
   assertthat::assert_that(participant_design %in% c("between", "within_two", "within_one"))
 
-  #we introduce variables calles d_calc and d_var_calc to distiguish them from the fields d and d_var, which are fields where effect sizes were already available from the source of the data
+  ## Introduce variables called `d_calc` and `d_var_calc` to
+  ## distiguish them from the fields `d` and `d_var`, which are fields
+  ## where effect sizes were already available from the source of the
+  ## data
   d_calc <- NA
   d_var_calc <- NA
   es_method <- "missing"
 
-  #start of decision tree where effect sizes are calculated differently based on participant design
-  #depending on which data is available, effect sizes are calculated differently
+  ## Start of decision tree where effect sizes are calculated
+  ## differently based on participant design depending on which data
+  ## is available, effect sizes are calculated differently
+  
   if (participant_design == "between") {
     es_method  <- "between"
     #effect size calculation
