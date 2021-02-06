@@ -1,6 +1,6 @@
 Package: metalabr
 Title: R package for accessing MetaLab data
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person(given = "Erik",
            family = "Iverson",

@@ -1,4 +1,4 @@
-fetch_dataset <- function(key, revision = NA) {
+fetch_ml_data <- function(key, revision = NA) {
   if (is.na(revision)) {
     dataset_url <- sprintf(
       "https://docs.google.com/spreadsheets/d/%s/export?id=%s&format=csv",

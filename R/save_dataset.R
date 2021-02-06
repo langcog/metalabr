@@ -1,4 +1,4 @@
-save_dataset <- function(dataset_meta, dataset_data) {
-  write.csv(dataset_data, here("data", paste0(dataset_meta$filename, ".csv")), row.names = FALSE)
-  cat(sprintf("Dataset '%s' saved successfully.\n", dataset_meta$name))
+save_ml_data <- function(metadata, data) {
+  write.csv(data, here("data", paste0(metadata$filename, ".csv")), row.names = FALSE)
+  cat(sprintf("Dataset '%s' saved successfully.\n", metadata$name))
 }

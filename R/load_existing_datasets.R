@@ -1,9 +1,9 @@
 #' @export
-load_published_data <- function(rdata_file = get_published_data_url()) {
+load_ml_data <- function(rdata_file = get_published_data_url()) {
   load(url(rdata_file), envir = .GlobalEnv)
 }
 
-load_cached_data <- function(rdata_file = get_cached_data_file()) {
+load_ml_cached <- function(rdata_file = get_cached_data_file()) {
   load(rdata_file, envir = .GlobalEnv)
 }
 

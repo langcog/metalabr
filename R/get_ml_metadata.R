@@ -2,25 +2,21 @@
 
 ml_metadata_url <- "https://raw.githubusercontent.com/langcog/metalab/main/metadata/"
 
-#' @export
-get_metalab_domain_info <- function(domain_file = paste0(ml_metadata_url, "domains.yaml")) {
+get_ml_domains <- function(domain_file = paste0(ml_metadata_url, "domains.yaml")) {
   yaml::yaml.load_file(domain_file)
 }
 
-#' @export
-get_metalab_report_info <- function(report_file = paste0(ml_metadata_url, "reports.yaml")) {
+get_ml_reports <- function(report_file = paste0(ml_metadata_url, "reports.yaml")) {
   yaml::yaml.load_file(report_file)
 }
 
-#' @export
-get_metalab_field_info <- function(field_file = paste0(ml_metadata_url, "spec.yaml")) {
-  yaml::yaml.load_file(field_file)
+get_ml_specs <- function(specs = paste0(ml_metadata_url, "spec.yaml")) {
+  yaml::yaml.load_file(specs)
 }
 
-#' @export
-get_metalab_derived_field_info <- function(derived_field_file =
+get_ml_derived_specs <- function(specs_derived =
                                              paste0(ml_metadata_url, "spec_derived.yaml")) {
-  yaml::yaml.load_file(derived_field_file) %>%
+  yaml::yaml.load_file(specs_derived) %>%
     purrr::transpose() %>%
     purrr::simplify_all() %>%
     dplyr::as_data_frame()
@@ -37,7 +33,7 @@ get_metalab_derived_field_info <- function(derived_field_file =
 #'   ml_data <- metalabr::get_metalab_data(ml_dataset_info)
 #' }
 #' 
-get_metalab_dataset_info <- function(dataset_file = paste0(ml_metadata_url, "datasets.yaml")) {
+get_ml_metadata <- function(dataset_file = paste0(ml_metadata_url, "datasets.yaml")) {
   datasets <- yaml::yaml.load_file(dataset_file)
 
   datasets <- datasets %>% purrr::map(function(x) {

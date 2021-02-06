@@ -1,4 +1,5 @@
-scatter_plot <- function(scatter_curve) {
+#' @export
+ml_scatter_plot <- function(scatter_curve) {
 
   labels <- if (mod_group() == "all_mod") NULL else
                                                  setNames(paste(mod_data()[[mod_group()]], "  "), mod_data()[[mod_group()]])

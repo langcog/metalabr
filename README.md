@@ -35,6 +35,6 @@ The second line of code will read the raw data from Google Sheets for
 each of the datasets in `ml_dataset_info`.
 
 ```r
-ml_dataset_info <- metalabr::get_metalab_dataset_info()
-ml_data <- metalabr::get_metalab_data(ml_dataset_info)
+ml_metadata <- metalabr::get_ml_metadata()
+ml_data <- metalabr::get_ml_data(ml_metadata)
 ```
