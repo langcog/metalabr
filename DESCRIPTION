@@ -1,12 +1,12 @@
 Package: metalabr
 Title: R package for accessing MetaLab data
-Version: 0.0.1
+Version: 0.2.0
 Authors@R: 
     person(given = "Erik",
            family = "Iverson",
            role = c("aut", "cre"),
            email = "erik@sigmafield.org")
-Description: This package provides functions for reading, validating, and processing data for MetaLab. 
+Description: This package provides functions for reading, validating, and visualizing MetaLab data.
 License: use_mit_license()
 Encoding: UTF-8
 LazyData: true
@@ -15,6 +15,7 @@ Imports:
     dplyr,
     httr,
     magrittr,
+    metafor,
     purrr,
     stringr,
     yaml,

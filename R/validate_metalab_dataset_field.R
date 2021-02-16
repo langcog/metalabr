@@ -1,4 +1,4 @@
-is_valid_required_field <- function(dataset_name, dataset_contents, field) {
+is_valid_metalab_required_field <- function(dataset_name, dataset_contents, field) {
   
   if (!field$field %in% names(dataset_contents)) {
     message(sprintf("Dataset %s is missing required field: '%s'.\n",
@@ -9,7 +9,7 @@ is_valid_required_field <- function(dataset_name, dataset_contents, field) {
   }
 }
 
-is_valid_options_field <- function(dataset_name, dataset_contents, field) {
+is_valid_metalab_options_field <- function(dataset_name, dataset_contents, field) {
   if (class(field$options) == "list") {
     options <- names(unlist(field$options, recursive = FALSE))
   } else {
@@ -34,7 +34,7 @@ is_valid_options_field <- function(dataset_name, dataset_contents, field) {
   }
 }
 
-is_valid_numeric_field <- function(dataset_name, dataset_contents, field) {
+is_valid_metalab_numeric_field <- function(dataset_name, dataset_contents, field) {
   field_contents <- dataset_contents[[field$field]]
   if (!(is.numeric(field_contents) || all(is.na(field_contents)))) {
     message(sprintf("Dataset %s has wrong type for numeric field '%s'.\n",
@@ -45,7 +45,7 @@ is_valid_numeric_field <- function(dataset_name, dataset_contents, field) {
   }
 }
 
-is_valid_r_corr <- function(dataset_name, dataset_contents, field){
+is_valid_metalab_r_corr <- function(dataset_name, dataset_contents, field){
   field_contents <- dataset_contents[[field$field]]
   if ((any(field_contents > 1, na.rm = TRUE)) || any(field_contents < -1, na.rm = TRUE)){
     rows <- which(((field_contents > 1 | field_contents < -1))) + 1
@@ -57,7 +57,7 @@ is_valid_r_corr <- function(dataset_name, dataset_contents, field){
   }
 }
 
-is_valid_length <- function(dataset_name, dataset_contents, field, length_limit){
+is_valid_metalab_length <- function(dataset_name, dataset_contents, field, length_limit){
   field_contents <- dataset_contents[[field$field]]
   if ((any(nchar(field_contents) > length_limit))){
     message(sprintf("Dataset %s has length greater than limit (%s characters) in '%s' \n",
@@ -68,9 +68,9 @@ is_valid_length <- function(dataset_name, dataset_contents, field, length_limit)
   }
 }
 
-validate_dataset_field <- function(dataset_name, dataset_contents, field) {
+validate_metalab_field <- function(dataset_name, dataset_contents, field) {
   if (field$required) {
-    if (!is_valid_required_field(dataset_name, dataset_contents, field)) {
+    if (!is_valid_metalab_required_field(dataset_name, dataset_contents, field)) {
       return(FALSE)
     }
     
@@ -82,20 +82,20 @@ validate_dataset_field <- function(dataset_name, dataset_contents, field) {
         return(FALSE)
       }
       
-      if(!is_valid_length(dataset_name, dataset_contents, field, 60)) {
+      if(!is_valid_metalab_length(dataset_name, dataset_contents, field, 60)) {
         return(FALSE)
       }
     }
     if (field$type == "options") {
-      if (!is_valid_options_field(dataset_name, dataset_contents, field)) {
+      if (!is_valid_metalab_options_field(dataset_name, dataset_contents, field)) {
         return(FALSE)
       }
     } else if (field$type == "numeric") {
-      if (!is_valid_numeric_field(dataset_name, dataset_contents, field)) {
+      if (!is_valid_metalab_numeric_field(dataset_name, dataset_contents, field)) {
         return(FALSE)
       }
       if (field$field == "r" || field$field == "corr"){
-        if(!is_valid_r_corr(dataset_name, dataset_contents, field)){
+        if(!is_valid_metalab_r_corr(dataset_name, dataset_contents, field)){
           return(FALSE)
         }
       }
