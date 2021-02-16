@@ -1,11 +1,15 @@
 Package: metalabr
 Title: R package for accessing MetaLab data
-Version: 0.2.0
+Version: 0.9.0
 Authors@R: 
-    person(given = "Erik",
-           family = "Iverson",
-           role = c("aut", "cre"),
-           email = "erik@sigmafield.org")
+    c(person(given = "Erik",
+             family = "Iverson",
+             role = c("aut", "cre"),
+             email = "erik@sigmafield.org"),
+      person(given = "Sara",
+             family = "El-Shawa",
+             email = "",
+             role = c("aut")))
 Description: This package provides functions for reading, validating, and visualizing MetaLab data.
 License: use_mit_license()
 Encoding: UTF-8
