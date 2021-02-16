@@ -4,7 +4,7 @@
 \alias{get_metalab_data}
 \title{Get raw data used by Metalab}
 \usage{
-get_metalab_data(ml_metadata, short_names, domains, specs)
+get_metalab_data(metalab_metadata, short_names, domains, specs)
 }
 \arguments{
 \item{dataset_info}{A data.frame of datasets created with get_metalab_dataset_info()}
@@ -17,8 +17,8 @@ Get raw data used by Metalab
 }
 \examples{
 \dontrun{
-  ml_metadata <- metalabr::get_ml_metadata()
-  ml_data <- metalabr::get_ml_data(ml_metadata)
+  metadata <- get_metalab_metadata()
+  metalab_data <- get_metalab_data(metadata)
 }
 
 }

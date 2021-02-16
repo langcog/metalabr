@@ -19,8 +19,8 @@ Get raw data used by Metalab
 }
 \examples{
 \dontrun{
-  metalab_dataset_info <- metalabr::get_metalab_dataset_info()
-  metalab_data <- metalabr::get_metalab_data(metalab_dataset_info)
+  metadata <- get_metalab_metadata()
+  metalab_data <- get_metalab_data(metadata)
 }
 
 }
