@@ -8,7 +8,7 @@ Authors@R:
              email = "erik@sigmafield.org"),
       person(given = "Sara",
              family = "El-Shawa",
-             email = "",
+             email = "sara.el.shawa@utoronto.ca",
              role = c("aut")))
 Description: This package provides functions for reading, validating, and visualizing MetaLab data.
 License: use_mit_license()
