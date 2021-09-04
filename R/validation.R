@@ -82,8 +82,8 @@ make_fields <- function(fields) {
 }
 
 
-googledrive::drive_auth(path = "~/Downloads/metalab-286312-546cfefb0cb2.json",
-                        scopes = "https://www.googleapis.com/auth/drive.readonly")
+## googledrive::drive_auth(path = "~/Downloads/metalab-286312-546cfefb0cb2.json",
+##                         scopes = "https://www.googleapis.com/auth/drive.readonly")
 
 get_revisions <- function(dataset) {
   request <- request_generate(

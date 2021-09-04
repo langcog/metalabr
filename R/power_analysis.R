@@ -13,7 +13,7 @@ power_analysis_app <- function(metalab_data, dataset_info) {
   library(DT)
   library(stringr)
   library(metalabr)
-  library(googledrive)
+##  library(googledrive)
   
   ui <- dashboardPage(
     dashboardHeader(disable = TRUE),
