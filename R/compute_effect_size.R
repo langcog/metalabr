@@ -1,18 +1,23 @@
-compute_es <- function(participant_design, x_1 = NA, x_2 = NA, x_dif = NA,
-                       SD_1 = NA, SD_2 = NA, SD_dif = NA, n_1 = NA, n_2 = NA,
-                       t = NA, f = NA, d = NA, d_var = NA, corr = NA,
-                       corr_imputed = NA, r = NA, r_var = NA, study_ID = NA, expt_num = NA,
-                       special_cases_measures = NA, contrast_sampa = NA, short_name = NA) {
+compute_effect_size <- function(participant_design, x_1 = NA, x_2 = NA, x_dif = NA,
+                                SD_1 = NA, SD_2 = NA, SD_dif = NA, n_1 = NA, n_2 = NA,
+                                t = NA, f = NA, d = NA, d_var = NA, corr = NA,
+                                corr_imputed = NA, r = NA, r_var = NA, study_ID = NA, expt_num = NA,
+                                special_cases_measures = NA, contrast_sampa = NA, short_name = NA) {
 
   assertthat::assert_that(participant_design %in% c("between", "within_two", "within_one"))
 
-  #we introduce variables calles d_calc and d_var_calc to distiguish them from the fields d and d_var, which are fields where effect sizes were already available from the source of the data
+  ## Introduce variables called `d_calc` and `d_var_calc` to
+  ## distiguish them from the fields `d` and `d_var`, which are fields
+  ## where effect sizes were already available from the source of the
+  ## data
   d_calc <- NA
   d_var_calc <- NA
   es_method <- "missing"
 
-  #start of decision tree where effect sizes are calculated differently based on participant design
-  #depending on which data is available, effect sizes are calculated differently
+  ## Start of decision tree where effect sizes are calculated
+  ## differently based on participant design depending on which data
+  ## is available, effect sizes are calculated differently
+  
   if (participant_design == "between") {
     es_method  <- "between"
     #effect size calculation
