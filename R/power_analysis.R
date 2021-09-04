@@ -1,4 +1,4 @@
-power_analysis_app <- function(metalab_data) {
+power_analysis_app <- function(metalab_data, dataset_info) {
   library(shiny)
   library(shinyBS)
   library(shinydashboard)

@@ -16,6 +16,7 @@ categorical_mods <- function(moderators, specs_derived) {
   }
   
   ret <- purrr::keep(moderators, function(mod) {
+    specs <- get_metalab_specs() #does this need to be an argument?
     # assumes all derived fields are non-categorical, which may change?
     !(mod %in% specs_derived$field) &&
       purrr::keep(specs, ~.x$field == mod)[[1]]$type %in% c("string", "options")
@@ -41,6 +42,7 @@ combine_mods <- function(df, cols, moderators,specs_derived) {
 }
 
 no_mod_model <- function(metalab_data, es_col, es_var_col) {
+  ma_method <- "REML_mv"
   if (ma_method == "REML_mv") {
     metafor::rma.mv(yi = metalab_data[[es_col]], V = metalab_data[[es_var_col]],
                     random = ~ 1 | metalab_data[["short_cite"]] / metalab_data[["same_infant_calc"]] /

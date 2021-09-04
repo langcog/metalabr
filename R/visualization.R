@@ -1,7 +1,6 @@
-viz_app <- function(metalab_data) {
+#' @export
+viz_app <- function(metalab_data, dataset_info) {
   library(metafor)
-
-  
 
   ma_choices <- c("Multi-level random effects with study grouping" = "REML_mv")
   # "Random effects" = "REML",

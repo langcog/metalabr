@@ -1,19 +1,20 @@
-get_and_validate_sheets <- function(metalab_metadata, specs) {
+get_and_validate_sheets <- function(metalab_metadata, specs, perform_validation = TRUE) {
   cat("Getting raw MetaLab data from Google Sheets for dataset:", metalab_metadata$short_name, "\n")
 
-  published_version <- get_published_version(metalab_metadata$short_name)
+  ## current_version <- get_current_version(metalab_metadata$short_name)
 
-  if ((length(published_version) > 0) && (published_version == metalab_metadata$published_version)) {
-    cat(paste0("Version specified for ",
-               metalab_metadata$short_name ," (",
-               published_version ,
-               ") is already published, skipping update.\n"))
-    return()
-  }
+  ## if ((length(current_version) > 0) && (current_version == metalab_metadata$current_version)) {
+  ##   cat(paste0("Version specified for ",
+  ##              metalab_metadata$short_name ," (",
+  ##              current_version ,
+  ##              ") is already the current version, skipping update.\n"))
+  ##   return()
+  ## }
     
-  drive_share(file = as_id(metalab_metadata$key), role = "writer", type = "anyone")
-  metalab_dataset <- fetch_metalab_data(metalab_metadata$key, metalab_metadata$published_version)
-  drive_share(file = as_id(metalab_metadata$key), role = "reader", type = "anyone")
+  ## googledrive::drive_share(file = googledrive::as_id(metalab_metadata$key), role = "writer", type = "anyone")
+  ## metalab_dataset <- fetch_metalab_data(metalab_metadata$key, metalab_metadata$current_version)
+  metalab_dataset <- fetch_metalab_data(metalab_metadata$key)  
+  ## googledrive::drive_share(file = googledrive::as_id(metalab_metadata$key), role = "reader", type = "anyone")
   
   if (is.null(metalab_dataset)) {
     return()
@@ -23,12 +24,12 @@ get_and_validate_sheets <- function(metalab_metadata, specs) {
                                             metalab_dataset,
                                             specs)
 
-  if (!is_valid_dataset) {
+  if (perform_validation && !is_valid_dataset) {
     return()
   }
 
   ## update version in metadata
-  update_published_version(metalab_metadata)
+  ## update_current_version(metalab_metadata)
   
   avg_month <- 365.2425 / 12.0
   ## NB: do we need all_mod here? what is the d_calc filter?
@@ -46,19 +47,19 @@ get_and_validate_sheets <- function(metalab_metadata, specs) {
       expt_condition = as.character(expt_condition))
 }
 
-get_published_version <- function(sn) {
+get_current_version <- function(sn) {
   versions_file <- here::here("shinyapps", "site_data", "versions", "dataset-versions.csv")
   versions_df <- read.csv(versions_file, header = TRUE, colClasses = c("character", "integer"))
   versions_df %>% filter(short_name == sn) %>% pull(version)
 }
 
-update_published_version <- function(metalab_metadata) {
+update_current_version <- function(metalab_metadata) {
   versions_file <- here::here("shinyapps", "site_data", "versions", "dataset-versions.csv")
   versions_df <- read.csv(versions_file, header = TRUE, colClasses = c("character", "integer"))
 
   versions_df <- dplyr::bind_rows(versions_df,
                                   data.frame(short_name = metalab_metadata$short_name,
-                                             version = metalab_metadata$published_version))
+                                             version = metalab_metadata$current_version))
 
   write.csv(versions_df, file = versions_file, quote = FALSE, row.names = FALSE)
 }

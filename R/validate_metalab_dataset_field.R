@@ -1,5 +1,4 @@
 is_valid_metalab_required_field <- function(dataset_name, dataset_contents, field) {
-  
   if (!field$field %in% names(dataset_contents)) {
     message(sprintf("Dataset %s is missing required field: '%s'.\n",
                 dataset_name, field$field))

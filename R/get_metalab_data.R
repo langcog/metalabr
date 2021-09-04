@@ -9,7 +9,7 @@
 #'   metalab_data <- get_metalab_data(metadata)
 #' }
 #' 
-get_metalab_data <- function(metalab_metadata, short_names, domains, specs) {
+get_metalab_data <- function(metalab_metadata, short_names, domains, specs, perform_validation = TRUE) {
   if (missing(specs)) {
     specs <- get_metalab_specs()
   }
@@ -28,6 +28,6 @@ get_metalab_data <- function(metalab_metadata, short_names, domains, specs) {
   
   metalab_metadata %>%
     purrr::pmap_dfr(function(...) {
-        get_and_validate_sheets(list(...), specs)
+        get_and_validate_sheets(list(...), specs, perform_validation = perform_validation)
     }) 
 }

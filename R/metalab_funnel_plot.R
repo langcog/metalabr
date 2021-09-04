@@ -11,7 +11,6 @@ metalab_funnel_plot <- function(metalab_data, short_names, es_col, es_var_col, m
            levels = rev(levels(mod_factor)))
   metalab_data <- metalab_data %>% filter(short_name %in% short_names)
   
-  cat(es_var_col, '\n')
   if (length(moderators) == 0) {
     d <- data_frame(se = sqrt(model(metalab_data, moderators, es_col, es_var_col)$vi),
                     es = model(metalab_data, moderators, es_col, es_var_col)$yi)
@@ -71,7 +70,6 @@ metalab_funnel_plot <- function(metalab_data, short_names, es_col, es_var_col, m
 }
 
 model <- function(metalab_data, moderators, es_col, es_var_col) {
-  cat(es_var_col, '\n')
   if (length(moderators) == 0) {
     no_mod_model(metalab_data, es_col, es_var_col)
   } else {

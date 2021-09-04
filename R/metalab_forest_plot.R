@@ -1,13 +1,17 @@
 #' @export
-metalab_forest_plot <- function(metalab_data, short_names, es_col, es_var_col,
-                           moderators, specs_derived,
-                           sort_order = "effects") {
+metalab_forest_plot <- function(metalab_data, short_name, es_col, es_var_col,
+                                moderators = NULL,
+                                specs_derived = get_metalab_derived_specs(),
+                                sort_order = "effects",
+                                alpha = 0.05) {
+
   metalab_data <- mod_data(metalab_data, moderators, specs_derived)
   mod_factor <- factor(metalab_data[[mod_group(moderators,specs_derived)]])
   metalab_data[[mod_group(moderators,specs_derived)]] <-
     factor(metalab_data[[mod_group(moderators,specs_derived)]],
            levels = rev(levels(mod_factor)))
-  metalab_data <- metalab_data %>% filter(short_name %in% short_names)
+  sn <- short_name
+  metalab_data <- metalab_data %>% dplyr::filter(short_name == sn)
   
   f <- fitted(model(metalab_data, moderators, es_col, es_var_col))
   p <- predict(model(metalab_data, moderators, es_col, es_var_col))
