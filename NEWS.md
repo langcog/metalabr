@@ -1,7 +1,7 @@
 # metalabr 1.0.0
 
 MetaLab data now lives in versioned, citable releases on Redivis
-(<https://redivis.com/datasets/81tq-9ewzpdvz0>), and metalabr reads them by
+(<https://stanford.redivis.com/datasets/81tq-8dp5ge6b9>), and metalabr reads them by
 default. Every data-access call announces which release it used.
 
 ## Data access

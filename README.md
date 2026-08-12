@@ -7,7 +7,7 @@
 An R package for accessing data from [MetaLab](https://metalab.stanford.edu),
 a database of community-augmented meta-analyses of language acquisition and
 cognitive development. MetaLab data are released as versioned, citable
-snapshots on [Redivis](https://redivis.com/datasets/81tq-9ewzpdvz0); metalabr
+snapshots on [Redivis](https://stanford.redivis.com/datasets/81tq-8dp5ge6b9); metalabr
 reads those releases.
 
 ## Installation

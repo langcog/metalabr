@@ -1,7 +1,7 @@
 #' Get MetaLab effect-size data
 #'
 #' By default, reads a released version of the MetaLab database from Redivis
-#' (\url{https://redivis.com/datasets/81tq-9ewzpdvz0}) — one row per effect
+#' (\url{https://stanford.redivis.com/datasets/81tq-8dp5ge6b9}) — one row per effect
 #' size across all datasets, with all coded and derived columns. Releases are
 #' versioned and citable; the release used is announced with a message.
 #'
