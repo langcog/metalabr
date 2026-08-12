@@ -32,6 +32,9 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
+          # resolves the redivis Suggests dependency (not on CRAN; pak does
+          # not read DESCRIPTION's Additional_repositories field)
+          extra-repositories: 'https://langcog.r-universe.dev'
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
