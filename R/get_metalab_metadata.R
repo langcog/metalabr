@@ -19,21 +19,39 @@ get_metalab_derived_specs <- function(specs_derived =
   yaml::yaml.load_file(specs_derived) %>%
     purrr::transpose() %>%
     purrr::simplify_all() %>%
-    dplyr::as_data_frame()
+    tibble::as_tibble()
 }
 
-#' Get raw data used by Metalab
+#' Get MetaLab dataset metadata
 #'
-#' @param dataset_file A file or URL with MetaLab dataset metadata, defaults to the current MetaLab dataset metadata hosted in the langcog/metalab2 repository on Github
+#' By default, reads the dataset registry (one row per dataset: names,
+#' domains, citations, curators, summary counts, and data provenance) from
+#' the released MetaLab data on Redivis. Passing `dataset_file` instead
+#' parses a `datasets.yaml` registry file (the legacy curator path used to
+#' build releases).
+#'
+#' @param dataset_file Optional path or URL of a `datasets.yaml` registry
+#'   file; if provided, the registry is parsed from YAML instead of read from
+#'   the released data.
+#' @param version A MetaLab release name (e.g. `"2026.1"`), or `"current"`
+#'   (default) for the latest release (Redivis path only).
+#' @return A data.frame of MetaLab dataset metadata (`moderators` and
+#'   `subset` are list-columns), or `NULL` (with a message) if released data
+#'   could not be fetched.
 #' @export
-#' @return A data.frame of MetaLab dataset metadata
 #' @examples
 #' \dontrun{
 #'   metadata <- get_metalab_metadata()
 #'   metalab_data <- get_metalab_data(metadata)
 #' }
-#' 
-get_metalab_metadata <- function(dataset_file = paste0(metalab_metadata_url, "datasets.yaml")) {
+#'
+get_metalab_metadata <- function(dataset_file = NULL, version = "current") {
+  if (is.null(dataset_file)) {
+    datasets <- read_metalab_table("datasets", version = version)
+    if (is.null(datasets)) return(NULL)
+    return(restore_list_cols(datasets, c("moderators", "subset")))
+  }
+
   datasets <- yaml::yaml.load_file(dataset_file)
 
   datasets <- datasets %>% purrr::map(function(x) {

@@ -1,28 +1,50 @@
 Package: metalabr
-Title: R package for accessing MetaLab data
-Version: 0.9.1
-Authors@R: 
+Title: Access MetaLab Community-Augmented Meta-Analysis Data
+Version: 1.0.0
+Authors@R:
     c(person(given = "Erik",
              family = "Iverson",
-             role = c("aut", "cre"),
+             role = c("aut"),
              email = "erik@sigmafield.org"),
       person(given = "Sara",
              family = "El-Shawa",
              email = "sara.el.shawa@utoronto.ca",
-             role = c("aut")))
-Description: This package provides functions for reading, validating, and visualizing MetaLab data.
-License: use_mit_license()
+             role = c("aut")),
+      person(given = "Michael C.",
+             family = "Frank",
+             email = "mcfrank@stanford.edu",
+             role = c("aut", "cre"),
+             comment = c(ORCID = "0000-0002-7551-4378")))
+Description: Read released, versioned data from MetaLab
+    (<https://metalab.stanford.edu>), a database of community-augmented
+    meta-analyses of language acquisition and cognitive development;
+    validate candidate datasets against the MetaLab field specification;
+    compute standardized effect sizes; and draw the standard MetaLab
+    visualizations (scatter, violin, forest, and funnel plots) backed by
+    multilevel random-effects models.
+License: MIT + file LICENSE
+URL: https://github.com/langcog/metalabr, https://metalab.stanford.edu
+BugReports: https://github.com/langcog/metalabr/issues
 Encoding: UTF-8
-LazyData: true
 Imports:
     assertthat,
     dplyr,
+    ggplot2,
+    Hmisc,
     httr,
+    jsonlite,
     magrittr,
     metafor,
     purrr,
+    rlang,
     stringr,
-    yaml,
-    Hmisc
+    tibble,
+    yaml
+Suggests:
+    readr,
+    redivis,
+    testthat (>= 3.0.0)
+Additional_repositories: https://langcog.r-universe.dev
+Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.3

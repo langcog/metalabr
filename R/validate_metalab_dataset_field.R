@@ -9,7 +9,7 @@ is_valid_metalab_required_field <- function(dataset_name, dataset_contents, fiel
 }
 
 is_valid_metalab_options_field <- function(dataset_name, dataset_contents, field) {
-  if (class(field$options) == "list") {
+  if (inherits(field$options, "list")) {
     options <- names(unlist(field$options, recursive = FALSE))
   } else {
     options <- field$options

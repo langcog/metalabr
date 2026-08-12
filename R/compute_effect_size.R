@@ -252,7 +252,7 @@ compute_effect_size <- function(participant_design, x_1 = NA, x_2 = NA, x_dif = 
   log_odds_var_calc <- d_var_calc * pi ^ 2 / 3
 
 
-  return(data_frame("d_calc" = d_calc, "d_var_calc" = d_var_calc,
+  return(tibble::tibble("d_calc" = d_calc, "d_var_calc" = d_var_calc,
                     "g_calc" = g_calc, "g_var_calc" = g_var_calc,
                     "r_calc" = r_calc, "r_var_calc" = r_var_calc,
                     "z_calc" = z_calc, "z_var_calc" = z_var_calc,

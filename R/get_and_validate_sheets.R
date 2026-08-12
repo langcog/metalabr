@@ -47,19 +47,3 @@ get_and_validate_sheets <- function(metalab_metadata, specs, perform_validation 
       expt_condition = as.character(expt_condition))
 }
 
-get_current_version <- function(sn) {
-  versions_file <- here::here("shinyapps", "site_data", "versions", "dataset-versions.csv")
-  versions_df <- read.csv(versions_file, header = TRUE, colClasses = c("character", "integer"))
-  versions_df %>% filter(short_name == sn) %>% pull(version)
-}
-
-update_current_version <- function(metalab_metadata) {
-  versions_file <- here::here("shinyapps", "site_data", "versions", "dataset-versions.csv")
-  versions_df <- read.csv(versions_file, header = TRUE, colClasses = c("character", "integer"))
-
-  versions_df <- dplyr::bind_rows(versions_df,
-                                  data.frame(short_name = metalab_metadata$short_name,
-                                             version = metalab_metadata$current_version))
-
-  write.csv(versions_df, file = versions_file, quote = FALSE, row.names = FALSE)
-}

@@ -2,20 +2,29 @@
 % Please edit documentation in R/get_metalab_metadata.R
 \name{get_metalab_metadata}
 \alias{get_metalab_metadata}
-\title{Get raw data used by Metalab}
+\title{Get MetaLab dataset metadata}
 \usage{
-get_metalab_metadata(
-  dataset_file = paste0(metalab_metadata_url, "datasets.yaml")
-)
+get_metalab_metadata(dataset_file = NULL, version = "current")
 }
 \arguments{
-\item{dataset_file}{A file or URL with MetaLab dataset metadata, defaults to the current MetaLab dataset metadata hosted in the langcog/metalab2 repository on Github}
+\item{dataset_file}{Optional path or URL of a \code{datasets.yaml} registry
+file; if provided, the registry is parsed from YAML instead of read from
+the released data.}
+
+\item{version}{A MetaLab release name (e.g. \code{"2026.1"}), or \code{"current"}
+(default) for the latest release (Redivis path only).}
 }
 \value{
-A data.frame of MetaLab dataset metadata
+A data.frame of MetaLab dataset metadata (\code{moderators} and
+\code{subset} are list-columns), or \code{NULL} (with a message) if released data
+could not be fetched.
 }
 \description{
-Get raw data used by Metalab
+By default, reads the dataset registry (one row per dataset: names,
+domains, citations, curators, summary counts, and data provenance) from
+the released MetaLab data on Redivis. Passing \code{dataset_file} instead
+parses a \code{datasets.yaml} registry file (the legacy curator path used to
+build releases).
 }
 \examples{
 \dontrun{

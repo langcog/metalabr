@@ -1,7 +1,7 @@
 tidy_dataset <- function(dataset_meta, dataset_contents, specs) {
   # Coerce each field's values to the field's type, discard any columns not in
   # field spec, add NA columns for missing (optional) fields
-  dataset_data <- data_frame(row = 1:nrow(dataset_contents))
+  dataset_data <- tibble::tibble(row = 1:nrow(dataset_contents))
   for (field in specs) {
     if (field$field %in% names(dataset_contents)) {
       if (field$type == "string") {
