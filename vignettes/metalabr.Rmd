@@ -1,0 +1,132 @@
+---
+title: "Accessing MetaLab data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Accessing MetaLab data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+# all data chunks require network access, so they are skipped on CRAN
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>",
+  fig.width = 6, fig.height = 4,
+  eval = identical(Sys.getenv("NOT_CRAN"), "true")
+)
+```
+
+[MetaLab](https://metalab.stanford.edu) is a database of community-augmented
+meta-analyses of language acquisition and cognitive development: thousands of
+standardized effect sizes, coded from the primary literature by dataset
+curators, with the moderators needed to analyze them. metalabr reads MetaLab
+data into R.
+
+```{r attach}
+library(metalabr)
+```
+
+## Released data
+
+MetaLab data are published as versioned, citable releases (hosted on
+[Redivis](https://stanford.redivis.com/datasets/81tq-8dp5ge6b9)).
+`get_metalab_data()` reads a release — one row per effect size across all
+datasets — and announces which release it used:
+
+```{r get-data}
+metalab_data <- get_metalab_data()
+if (!is.null(metalab_data)) {
+  dim(metalab_data)
+}
+```
+
+For reproducible analyses, pin the release your paper used rather than
+tracking `"current"`:
+
+```{r pin-version}
+metalab_2023 <- get_metalab_data(version = "2023.1")
+if (!is.null(metalab_2023)) {
+  nrow(metalab_2023)
+}
+```
+
+`get_metalab_versions()` lists the available releases:
+
+```{r versions}
+str(get_metalab_versions(), max.level = 2)
+```
+
+Reading released data requires the `redivis` package (not on CRAN):
+
+```{r install-redivis, eval = FALSE}
+install.packages("redivis",
+                 repos = c("https://langcog.r-universe.dev",
+                           "https://cloud.r-project.org"))
+```
+
+## The dataset registry
+
+`get_metalab_metadata()` reads the registry: one row per dataset, with
+domains, citations, curators, summary counts, and each dataset's coded
+moderators:
+
+```{r metadata}
+metadata <- get_metalab_metadata()
+if (!is.null(metadata)) {
+  metadata[1:5, c("name", "domain", "num_papers", "num_experiments")]
+}
+```
+
+## Working with effect sizes
+
+Individual datasets can be selected on read. Every dataset carries the
+calculated effect sizes (`d_calc`, `g_calc`, `r_calc`, `log_odds_calc`),
+their variances, and the standard MetaLab derived columns (`mean_age_months`,
+`same_infant_calc` for clustering, and so on):
+
+```{r mutex}
+mutex <- get_metalab_data(short_names = "mutex", version = "2023.1")
+if (!is.null(mutex)) {
+  summary(mutex$g_calc)
+}
+```
+
+The package includes the standard MetaLab visualizations, backed by the same
+multilevel random-effects models (`metafor::rma.mv` with effect sizes nested
+in participant groups nested in papers) used on the MetaLab site — scatter,
+violin, forest, and funnel plots, plus Egger's regression test for funnel
+asymmetry:
+
+```{r funnel, fig.alt = "Funnel plot of the mutual exclusivity dataset"}
+if (!is.null(mutex)) {
+  metalab_funnel_plot(mutex, "mutex")
+}
+```
+
+```{r funnel-test}
+if (!is.null(mutex)) {
+  metalab_funnel_test(mutex, "mutex")
+}
+```
+
+## Current data without dependencies
+
+`get_current_metalab_data()` downloads the current release's data bundle
+from the MetaLab site with no account or extra packages, loading
+`metalab_data` and `dataset_info` into the global environment (the legacy
+metalabr interface, kept for backward compatibility):
+
+```{r current}
+get_current_metalab_data()
+if (exists("dataset_info")) {
+  nrow(dataset_info)
+}
+```
+
+## Citing MetaLab
+
+If you use MetaLab data, please cite the release you used (shown in every
+data-access message), the dataset(s) you analyzed (citations are in the
+registry's `full_citation` column), and the MetaLab platform papers — see
+[metalab.stanford.edu](https://metalab.stanford.edu) for the current
+citation policy.

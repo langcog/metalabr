@@ -19,6 +19,8 @@ default. Every data-access call announces which release it used.
   2023, and reports the release it loaded. It still loads `metalab_data` and
   `dataset_info` into the global environment for backward compatibility.
 * New `get_metalab_versions()` lists releases and their Redivis versions.
+* New introductory vignette (`vignette("metalabr")`) covering released-data
+  access and version pinning.
 * All network access fails gracefully with a message (returning `NULL`)
   rather than an error.
 
