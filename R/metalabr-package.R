@@ -10,7 +10,7 @@
 #' @importFrom dplyr filter mutate select arrange bind_rows bind_cols
 #'   left_join distinct group_by ungroup rowwise summarise rename pull n
 #'   tibble
-#' @importFrom rlang .data
+#' @importFrom rlang .data %||%
 #' @importFrom stats na.omit setNames weighted.mean
 #' @importFrom utils head
 "_PACKAGE"

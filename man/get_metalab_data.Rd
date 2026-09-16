@@ -39,7 +39,7 @@ if released data could not be fetched.
 }
 \description{
 By default, reads a released version of the MetaLab database from Redivis
-(\url{https://redivis.com/datasets/81tq-9ewzpdvz0}) — one row per effect
+(\url{https://stanford.redivis.com/datasets/81tq-8dp5ge6b9}) — one row per effect
 size across all datasets, with all coded and derived columns. Releases are
 versioned and citable; the release used is announced with a message.
 }
@@ -57,7 +57,8 @@ produced and is subject to change between calls as curators edit sheets.
   mutex <- get_metalab_data(short_names = "mutex")
 
   # live curator sheets (legacy path)
-  metadata <- get_metalab_metadata(source = "sheets")
+  metadata <- get_metalab_metadata(dataset_file =
+    "https://raw.githubusercontent.com/langcog/metalab/main/metadata/datasets.yaml")
   metalab_data <- get_metalab_data(metadata)
 }
 }

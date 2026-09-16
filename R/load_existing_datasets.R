@@ -17,7 +17,7 @@ get_current_metalab_data <- function(rdata_file = get_current_data_url()) {
   loaded <- tryCatch({
     con <- url(rdata_file)
     on.exit(try(close(con), silent = TRUE), add = TRUE)
-    load(con, envir = .GlobalEnv)
+    suppressWarnings(load(con, envir = .GlobalEnv))
   }, error = function(e) {
     message("Could not download the MetaLab data bundle: ", conditionMessage(e))
     NULL

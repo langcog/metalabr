@@ -3,20 +3,22 @@
 metalab_metadata_url <- "https://raw.githubusercontent.com/langcog/metalab/main/metadata/"
 
 get_metalab_domains <- function(domain_file = paste0(metalab_metadata_url, "domains.yaml")) {
-  yaml::yaml.load_file(domain_file)
+  load_yaml_gracefully(domain_file, "MetaLab domains")
 }
 
 get_metalab_reports <- function(report_file = paste0(metalab_metadata_url, "reports.yaml")) {
-  yaml::yaml.load_file(report_file)
+  load_yaml_gracefully(report_file, "MetaLab reports")
 }
 
 get_metalab_specs <- function(specs = paste0(metalab_metadata_url, "spec.yaml")) {
-  yaml::yaml.load_file(specs)
+  load_yaml_gracefully(specs, "MetaLab field spec")
 }
 
 get_metalab_derived_specs <- function(specs_derived =
                                              paste0(metalab_metadata_url, "spec_derived.yaml")) {
-  yaml::yaml.load_file(specs_derived) %>%
+  parsed <- load_yaml_gracefully(specs_derived, "MetaLab derived field spec")
+  if (is.null(parsed)) return(NULL)
+  parsed %>%
     purrr::transpose() %>%
     purrr::simplify_all() %>%
     tibble::as_tibble()
@@ -52,7 +54,8 @@ get_metalab_metadata <- function(dataset_file = NULL, version = "current") {
     return(restore_list_cols(datasets, c("moderators", "subset")))
   }
 
-  datasets <- yaml::yaml.load_file(dataset_file)
+  datasets <- load_yaml_gracefully(dataset_file, "MetaLab dataset registry")
+  if (is.null(datasets)) return(NULL)
 
   datasets <- datasets %>% purrr::map(function(x) {
     x$moderators <- list(x$moderators)

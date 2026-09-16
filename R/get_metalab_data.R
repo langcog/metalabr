@@ -34,7 +34,8 @@
 #'   mutex <- get_metalab_data(short_names = "mutex")
 #'
 #'   # live curator sheets (legacy path)
-#'   metadata <- get_metalab_metadata(source = "sheets")
+#'   metadata <- get_metalab_metadata(dataset_file =
+#'     "https://raw.githubusercontent.com/langcog/metalab/main/metadata/datasets.yaml")
 #'   metalab_data <- get_metalab_data(metadata)
 #' }
 get_metalab_data <- function(metalab_metadata = NULL, short_names = NULL,
@@ -59,6 +60,7 @@ get_metalab_data <- function(metalab_metadata = NULL, short_names = NULL,
   ## legacy live-sheets path
   if (is.null(specs)) {
     specs <- get_metalab_specs()
+    if (is.null(specs)) return(invisible(NULL))
   }
 
   if (!is.null(short_names)) {

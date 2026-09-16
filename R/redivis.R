@@ -53,6 +53,15 @@ redivis_available <- function() {
   requireNamespace("redivis", quietly = TRUE)
 }
 
+## qualified references (name:id) keep the client from warning and survive
+## table renames
+metalab_table_refs <- c(
+  effect_sizes = "effect_sizes:7avb",
+  datasets = "datasets:fbv3",
+  fields = "fields:918z",
+  fields_derived = "fields_derived:cp2n"
+)
+
 read_metalab_table <- function(table, version = "current") {
   if (!redivis_available()) {
     message("The 'redivis' package is required to read released MetaLab data.\n",
@@ -64,8 +73,8 @@ read_metalab_table <- function(table, version = "current") {
   v <- resolve_metalab_version(version)
   tryCatch({
     ds <- redivis::redivis$organization("datapages")$dataset(
-      "metalab", version = v$redivis_version)
-    out <- ds$table(table)$to_tibble()
+      "metalab:81tq", version = v$redivis_version)
+    out <- ds$table(metalab_table_refs[[table]] %||% table)$to_tibble()
     announce_version(v)
     attr(out, "metalab_release") <- v$release
     out

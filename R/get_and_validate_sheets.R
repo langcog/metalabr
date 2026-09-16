@@ -1,5 +1,6 @@
 get_and_validate_sheets <- function(metalab_metadata, specs, perform_validation = TRUE) {
-  cat("Getting raw MetaLab data from Google Sheets for dataset:", metalab_metadata$short_name, "\n")
+  message("Getting raw MetaLab data from Google Sheets for dataset: ",
+          metalab_metadata$short_name)
 
   ## current_version <- get_current_version(metalab_metadata$short_name)
 

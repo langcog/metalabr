@@ -29,5 +29,10 @@ Authors:
   \item Sara El-Shawa \email{sara.el.shawa@utoronto.ca}
 }
 
+Other contributors:
+\itemize{
+  \item MetaLab contributors [copyright holder]
+}
+
 }
 \keyword{internal}

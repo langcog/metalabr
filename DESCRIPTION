@@ -14,7 +14,8 @@ Authors@R:
              family = "Frank",
              email = "mcfrank@stanford.edu",
              role = c("aut", "cre"),
-             comment = c(ORCID = "0000-0002-7551-4378")))
+             comment = c(ORCID = "0000-0002-7551-4378")),
+      person("MetaLab contributors", role = "cph"))
 Description: Read released, versioned data from MetaLab
     (<https://metalab.stanford.edu>), a database of community-augmented
     meta-analyses of language acquisition and cognitive development;
