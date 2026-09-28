@@ -10,7 +10,8 @@ get_metalab_data(
   domains = NULL,
   specs = NULL,
   perform_validation = TRUE,
-  version = "current"
+  version = "current",
+  imputation_seed = 111
 )
 }
 \arguments{
@@ -32,6 +33,13 @@ current spec.}
 
 \item{version}{A MetaLab release name (e.g. \code{"2026.1"}), or \code{"current"}
 (default) for the latest release (Redivis path only).}
+
+\item{imputation_seed}{Seed used when imputing missing within-participant
+correlations (live-sheets path only). The default (111) is the value
+used to produce every released MetaLab dataset, so effect sizes
+reproduce the releases exactly; set to \code{NULL} to draw from the session's
+random number stream instead. The session's RNG state is saved and
+restored around the imputation either way.}
 }
 \value{
 A data frame (tibble) of effect sizes, or \code{NULL} (with a message)

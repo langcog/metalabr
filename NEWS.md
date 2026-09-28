@@ -16,8 +16,15 @@ default. Every data-access call announces which release it used.
   `datasets.yaml` path/URL retains the legacy behavior.
 * `get_current_metalab_data()` now downloads the current release bundle
   served by the MetaLab site instead of a snapshot committed to GitHub in
-  2023, and reports the release it loaded. It still loads `metalab_data` and
-  `dataset_info` into the global environment for backward compatibility.
+  2023, and reports the release it loaded. It returns the data as an
+  invisible named list (`metalab_data`, `dataset_info`, `metalab_release`)
+  instead of writing into the global environment (which CRAN policy
+  disallows); pass `envir = globalenv()` to reproduce the metalabr 0.x
+  loading behavior.
+* Correlation imputation no longer sets a hardcoded RNG seed: the seed is a
+  documented argument (`get_metalab_data(imputation_seed = 111)`, the
+  historical default, reproducing released data exactly), and the session's
+  RNG state is saved and restored around the imputation.
 * New `get_metalab_versions()` lists releases and their Redivis versions.
 * New introductory vignette (`vignette("metalabr")`) covering released-data
   access and version pinning.

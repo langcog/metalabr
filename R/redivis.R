@@ -19,6 +19,11 @@ metalab_builtin_versions <- list(
 #'   (named list mapping release names to metadata including
 #'   `redivis_version`).
 #' @export
+#' @examples
+#' \donttest{
+#'   versions <- get_metalab_versions()
+#'   versions$current
+#' }
 get_metalab_versions <- function() {
   tryCatch({
     resp <- httr::GET(paste0(metalab_site_url, "/resources/versions.json"),

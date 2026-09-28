@@ -23,6 +23,12 @@
 #'   (live-sheets path only).
 #' @param version A MetaLab release name (e.g. `"2026.1"`), or `"current"`
 #'   (default) for the latest release (Redivis path only).
+#' @param imputation_seed Seed used when imputing missing within-participant
+#'   correlations (live-sheets path only). The default (111) is the value
+#'   used to produce every released MetaLab dataset, so effect sizes
+#'   reproduce the releases exactly; set to `NULL` to draw from the session's
+#'   random number stream instead. The session's RNG state is saved and
+#'   restored around the imputation either way.
 #' @return A data frame (tibble) of effect sizes, or `NULL` (with a message)
 #'   if released data could not be fetched.
 #' @export
@@ -40,7 +46,8 @@
 #' }
 get_metalab_data <- function(metalab_metadata = NULL, short_names = NULL,
                              domains = NULL, specs = NULL,
-                             perform_validation = TRUE, version = "current") {
+                             perform_validation = TRUE, version = "current",
+                             imputation_seed = 111) {
   if (!is.null(short_names) && !is.null(domains)) {
     stop("Only provide one of short_names or domains")
   }
@@ -73,6 +80,8 @@ get_metalab_data <- function(metalab_metadata = NULL, short_names = NULL,
 
   metalab_metadata %>%
     purrr::pmap_dfr(function(...) {
-        get_and_validate_sheets(list(...), specs, perform_validation = perform_validation)
+        get_and_validate_sheets(list(...), specs,
+                                perform_validation = perform_validation,
+                                imputation_seed = imputation_seed)
     })
 }

@@ -15,3 +15,9 @@ A list with elements \code{current} (release name) and \code{releases}
 Fetches the release registry served by the MetaLab site, falling back to a
 built-in copy if the site is unreachable.
 }
+\examples{
+\donttest{
+  versions <- get_metalab_versions()
+  versions$current
+}
+}

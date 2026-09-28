@@ -1,4 +1,6 @@
-get_and_validate_sheets <- function(metalab_metadata, specs, perform_validation = TRUE) {
+get_and_validate_sheets <- function(metalab_metadata, specs,
+                                    perform_validation = TRUE,
+                                    imputation_seed = 111) {
   message("Getting raw MetaLab data from Google Sheets for dataset: ",
           metalab_metadata$short_name)
 
@@ -34,7 +36,8 @@ get_and_validate_sheets <- function(metalab_metadata, specs, perform_validation 
   
   avg_month <- 365.2425 / 12.0
   ## NB: do we need all_mod here? what is the d_calc filter?
-  tidy_dataset(metalab_metadata, metalab_dataset, specs) %>%
+  tidy_dataset(metalab_metadata, metalab_dataset, specs,
+               imputation_seed = imputation_seed) %>%
     mutate(all_mod = "",
            mean_age_months = mean_age / avg_month) %>%
     filter(!is.na(d_calc)) %>%

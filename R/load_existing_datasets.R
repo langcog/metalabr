@@ -1,37 +1,51 @@
-#' Load the current MetaLab data release into the global environment
+#' Get the current MetaLab data release
 #'
 #' Downloads the current release's data bundle from the MetaLab site (no
-#' account or extra packages needed) and loads two objects into the global
-#' environment: `metalab_data` (one row per effect size) and `dataset_info`
-#' (one row per dataset), plus `metalab_release` (the release name).
+#' account or extra packages needed) and returns its contents:
+#' `metalab_data` (one row per effect size), `dataset_info` (one row per
+#' dataset), and `metalab_release` (the release name).
 #'
-#' For versioned, pinnable access use \code{\link{get_metalab_data}}, which
-#' returns the data as a value instead of loading it globally.
+#' For versioned, pinnable access use \code{\link{get_metalab_data}}.
 #'
 #' @param rdata_file URL or path of the data bundle; defaults to the bundle
 #'   served by the MetaLab site.
-#' @return Invisibly, the names of the loaded objects. Called for its side
-#'   effect.
+#' @param envir Optional environment. If supplied (e.g. `globalenv()`), the
+#'   objects are also assigned there, reproducing the behavior of metalabr
+#'   0.x, which always loaded into the global environment.
+#' @return Invisibly, a named list with elements `metalab_data`,
+#'   `dataset_info`, and `metalab_release`, or `NULL` (with a message) if
+#'   the bundle could not be downloaded.
 #' @export
-get_current_metalab_data <- function(rdata_file = get_current_data_url()) {
+#' @examples
+#' \donttest{
+#'   ml <- get_current_metalab_data()
+#'   if (!is.null(ml)) head(ml$dataset_info$name)
+#' }
+get_current_metalab_data <- function(rdata_file = get_current_data_url(),
+                                     envir = NULL) {
+  bundle <- new.env(parent = emptyenv())
   loaded <- tryCatch({
     con <- url(rdata_file)
     on.exit(try(close(con), silent = TRUE), add = TRUE)
-    suppressWarnings(load(con, envir = .GlobalEnv))
+    suppressWarnings(load(con, envir = bundle))
   }, error = function(e) {
     message("Could not download the MetaLab data bundle: ", conditionMessage(e))
     NULL
   })
-  if (!is.null(loaded) && "metalab_release" %in% loaded) {
-    message("Loaded MetaLab data release ", get("metalab_release", .GlobalEnv),
-            " into the global environment (objects: ",
-            paste(setdiff(loaded, "metalab_release"), collapse = ", "), ").")
+  if (is.null(loaded)) return(invisible(NULL))
+  out <- mget(loaded, envir = bundle)
+  if ("metalab_release" %in% loaded) {
+    message("Loaded MetaLab data release ", out$metalab_release,
+            " (objects: ", paste(loaded, collapse = ", "), ").")
   }
-  invisible(loaded)
+  if (!is.null(envir)) list2env(out, envir = envir)
+  invisible(out)
 }
 
 get_cached_metalab_data <- function(rdata_file = get_cached_data_file()) {
-  load(rdata_file, envir = .GlobalEnv)
+  bundle <- new.env(parent = emptyenv())
+  loaded <- load(rdata_file, envir = bundle)
+  invisible(mget(loaded, envir = bundle))
 }
 
 get_current_data_url <- function() {

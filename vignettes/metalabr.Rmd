@@ -112,14 +112,13 @@ if (!is.null(mutex)) {
 ## Current data without dependencies
 
 `get_current_metalab_data()` downloads the current release's data bundle
-from the MetaLab site with no account or extra packages, loading
-`metalab_data` and `dataset_info` into the global environment (the legacy
-metalabr interface, kept for backward compatibility):
+from the MetaLab site with no account or extra packages, returning
+`metalab_data`, `dataset_info`, and the release name:
 
 ```{r current}
-get_current_metalab_data()
-if (exists("dataset_info")) {
-  nrow(dataset_info)
+ml <- get_current_metalab_data()
+if (!is.null(ml)) {
+  nrow(ml$dataset_info)
 }
 ```
 

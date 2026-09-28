@@ -2,25 +2,35 @@
 % Please edit documentation in R/load_existing_datasets.R
 \name{get_current_metalab_data}
 \alias{get_current_metalab_data}
-\title{Load the current MetaLab data release into the global environment}
+\title{Get the current MetaLab data release}
 \usage{
-get_current_metalab_data(rdata_file = get_current_data_url())
+get_current_metalab_data(rdata_file = get_current_data_url(), envir = NULL)
 }
 \arguments{
 \item{rdata_file}{URL or path of the data bundle; defaults to the bundle
 served by the MetaLab site.}
+
+\item{envir}{Optional environment. If supplied (e.g. \code{globalenv()}), the
+objects are also assigned there, reproducing the behavior of metalabr
+0.x, which always loaded into the global environment.}
 }
 \value{
-Invisibly, the names of the loaded objects. Called for its side
-effect.
+Invisibly, a named list with elements \code{metalab_data},
+\code{dataset_info}, and \code{metalab_release}, or \code{NULL} (with a message) if
+the bundle could not be downloaded.
 }
 \description{
 Downloads the current release's data bundle from the MetaLab site (no
-account or extra packages needed) and loads two objects into the global
-environment: \code{metalab_data} (one row per effect size) and \code{dataset_info}
-(one row per dataset), plus \code{metalab_release} (the release name).
+account or extra packages needed) and returns its contents:
+\code{metalab_data} (one row per effect size), \code{dataset_info} (one row per
+dataset), and \code{metalab_release} (the release name).
 }
 \details{
-For versioned, pinnable access use \code{\link{get_metalab_data}}, which
-returns the data as a value instead of loading it globally.
+For versioned, pinnable access use \code{\link{get_metalab_data}}.
+}
+\examples{
+\donttest{
+  ml <- get_current_metalab_data()
+  if (!is.null(ml)) head(ml$dataset_info$name)
+}
 }

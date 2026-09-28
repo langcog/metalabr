@@ -1,4 +1,5 @@
-tidy_dataset <- function(dataset_meta, dataset_contents, specs) {
+tidy_dataset <- function(dataset_meta, dataset_contents, specs,
+                         imputation_seed = 111) {
   # Coerce each field's values to the field's type, discard any columns not in
   # field spec, add NA columns for missing (optional) fields
   dataset_data <- tibble::tibble(row = 1:nrow(dataset_contents))
@@ -17,8 +18,23 @@ tidy_dataset <- function(dataset_meta, dataset_contents, specs) {
     }
   }
 
-  # Impute values for missing correlations
-  set.seed(111)
+  # Impute values for missing correlations. The imputation draws from the
+  # dataset's observed correlations; seeding makes releases reproducible.
+  # Per CRAN policy the user's RNG state is saved and restored, so calling
+  # this never advances or resets the session's random number stream.
+  if (!is.null(imputation_seed)) {
+    old_seed <- if (exists(".Random.seed", envir = globalenv(), inherits = FALSE))
+      get(".Random.seed", envir = globalenv()) else NULL
+    on.exit(
+      if (is.null(old_seed)) {
+        if (exists(".Random.seed", envir = globalenv(), inherits = FALSE))
+          rm(".Random.seed", envir = globalenv())
+      } else {
+        assign(".Random.seed", old_seed, envir = globalenv())
+      },
+      add = TRUE)
+    set.seed(imputation_seed)
+  }
   # First we replace corr values outside the range (.01,.99) with NA
   dataset_data = dataset_data %>%
     mutate(corr = abs(corr)) %>%
