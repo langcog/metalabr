@@ -47,3 +47,14 @@ test_that("unknown release fails informatively", {
   expect_error(suppressMessages(get_metalab_data(version = "1999.1")),
                "Unknown MetaLab release")
 })
+
+test_that("get_current_metalab_data returns the effect-size data frame", {
+  skip_on_cran()
+  before <- ls(globalenv())
+  dat <- suppressMessages(get_current_metalab_data())
+  skip_if(is.null(dat), "MetaLab site unreachable")
+  expect_s3_class(dat, "data.frame")
+  expect_true(all(c("short_name", "d_calc", "g_calc") %in% names(dat)))
+  expect_type(attr(dat, "metalab_release"), "character")
+  expect_identical(setdiff(ls(globalenv()), before), character(0))
+})

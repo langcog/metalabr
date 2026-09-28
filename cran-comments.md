@@ -9,10 +9,9 @@ This is a resubmission addressing the review of 2026-09-27. Changes:
   (`get_metalab_data()`, `get_metalab_metadata()`) really cannot be
   executed without credentials: they read from the Redivis data repository,
   whose client requires an API token or an interactive OAuth login.
-* **.GlobalEnv**: `get_current_metalab_data()` no longer writes to the
-  global environment; it returns the loaded objects as a named list. (An
-  optional `envir` argument lets the user explicitly request assignment
-  into an environment they supply.)
+* **.GlobalEnv**: `get_current_metalab_data()` no longer writes to any
+  environment; it simply returns the data frame, like the package's other
+  data-access functions.
 * **set.seed() within a function**: the hardcoded seed in the correlation
   imputation (R/tidy_dataset.R) is gone. The seed is now a documented
   user-facing argument (`imputation_seed`, whose default reproduces the

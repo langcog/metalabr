@@ -4,33 +4,30 @@
 \alias{get_current_metalab_data}
 \title{Get the current MetaLab data release}
 \usage{
-get_current_metalab_data(rdata_file = get_current_data_url(), envir = NULL)
+get_current_metalab_data(rdata_file = get_current_data_url())
 }
 \arguments{
 \item{rdata_file}{URL or path of the data bundle; defaults to the bundle
 served by the MetaLab site.}
-
-\item{envir}{Optional environment. If supplied (e.g. \code{globalenv()}), the
-objects are also assigned there, reproducing the behavior of metalabr
-0.x, which always loaded into the global environment.}
 }
 \value{
-Invisibly, a named list with elements \code{metalab_data},
-\code{dataset_info}, and \code{metalab_release}, or \code{NULL} (with a message) if
-the bundle could not be downloaded.
+A data frame (tibble) of effect sizes, or \code{NULL} (with a
+message) if the bundle could not be downloaded.
 }
 \description{
-Downloads the current release's data bundle from the MetaLab site (no
-account or extra packages needed) and returns its contents:
-\code{metalab_data} (one row per effect size), \code{dataset_info} (one row per
-dataset), and \code{metalab_release} (the release name).
+Downloads the current release's effect-size data from the MetaLab site
+(no account or extra packages needed) and returns it as a data frame,
+one row per effect size across all datasets. The release name is
+announced with a message and attached as the \code{metalab_release}
+attribute.
 }
 \details{
-For versioned, pinnable access use \code{\link{get_metalab_data}}.
+For versioned, pinnable access use \code{\link{get_metalab_data}}; for
+the dataset registry use \code{\link{get_metalab_metadata}}.
 }
 \examples{
 \donttest{
-  ml <- get_current_metalab_data()
-  if (!is.null(ml)) head(ml$dataset_info$name)
+  metalab_data <- get_current_metalab_data()
+  if (!is.null(metalab_data)) dim(metalab_data)
 }
 }

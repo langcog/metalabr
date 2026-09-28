@@ -111,14 +111,14 @@ if (!is.null(mutex)) {
 
 ## Current data without dependencies
 
-`get_current_metalab_data()` downloads the current release's data bundle
-from the MetaLab site with no account or extra packages, returning
-`metalab_data`, `dataset_info`, and the release name:
+`get_current_metalab_data()` downloads the current release's effect sizes
+from the MetaLab site with no account or extra packages — the same data
+frame `get_metalab_data()` returns, restricted to the current release:
 
 ```{r current}
-ml <- get_current_metalab_data()
-if (!is.null(ml)) {
-  nrow(ml$dataset_info)
+current <- get_current_metalab_data()
+if (!is.null(current)) {
+  dim(current)
 }
 ```
 

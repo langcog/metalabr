@@ -14,13 +14,13 @@ default. Every data-access call announces which release it used.
 * `get_metalab_metadata()` likewise reads the released dataset registry by
   default (with `sheet_status`/`data_as_of` provenance columns); passing a
   `datasets.yaml` path/URL retains the legacy behavior.
-* `get_current_metalab_data()` now downloads the current release bundle
-  served by the MetaLab site instead of a snapshot committed to GitHub in
-  2023, and reports the release it loaded. It returns the data as an
-  invisible named list (`metalab_data`, `dataset_info`, `metalab_release`)
-  instead of writing into the global environment (which CRAN policy
-  disallows); pass `envir = globalenv()` to reproduce the metalabr 0.x
-  loading behavior.
+* `get_current_metalab_data()` now downloads the current release served by
+  the MetaLab site instead of a snapshot committed to GitHub in 2023, and
+  returns the effect-size data frame — like every other data-access
+  function — with the release announced in a message and recorded in the
+  `metalab_release` attribute. (metalabr 0.x instead loaded objects into
+  the global environment, which CRAN policy disallows; use
+  `get_metalab_metadata()` for what was the `dataset_info` object.)
 * Correlation imputation no longer sets a hardcoded RNG seed: the seed is a
   documented argument (`get_metalab_data(imputation_seed = 111)`, the
   historical default, reproducing released data exactly), and the session's
